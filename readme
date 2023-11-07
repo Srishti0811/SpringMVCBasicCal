@@ -1,0 +1,51 @@
+Spring MVC
+
+//http://localhost:8080/SpringMVC/index.jsp
+
+1. Easy to learn
+2. Flexibility to change anything anytime.
+3. Separation of module - different views, different models and different services to work with
+
+Can create great websites similar to using Servlet JSP but in a more efficient manner.
+ 
+ 
+We can go for XML based(web.xml, dispatcher-servlet.xml) or java based config(MyWebInitializer.java, DispatcherConfig.java) 
+
+Architecture of Spring MVC:
+Web.xml file is the mail file for navigations.
+Client to server - When a request is received, the request goes to Web.xml where it mentions which controller to call - servlet technology(normal MVC)- problem:
+If we have lots of controllers (login, logout, add, etc). Difficult to manage all the controllers.
+Each servlet behaves as a single controller. 
+We wanted a multi-action controller. Spring MVC comes into the picture.
+Front controller - Dispatcher servlet. Spring MVC provides the front controller. We just need to create the normal controllers.
+All client requests that go to the web.xml file should know we are using spring MVC and all requests need to go to the dispatcher servlet. We need to mention this in the web.xml file.<servlet-mapping>
+
+When a request is received at the Dispatcher servlet - the dispatcher servlet should know which controller to call. We need a configuration file that only mentions which package all the controllers are present.
+@controller annotation needs to be mentioned on each controller.
+
+After the processing is done by the controller - it returns the name of the page(view) and also data(data). Then this goes to the dispatcher servlet. It will call that particular view and add the data. Dispatcher servlet - > client.
+
+As a client, we are only interacting with the front controller. We don't know how many controllers are on the back end side.
+ Why should the dispatcher servlet know which view to call?
+It might happen that we change the existing JSP view to some other view - Angular/Velocity, we just need to change the config file for the dispatcher servlet. Controllers will not know which view we are using and view doesn't know what controllers we are using. That separation of concerns.
+ 
+ 
+ Create a project - maven-archetype-webapp.
+ 
+ When a request is sent it goes to web.xml
+ Add lib in pom to use Dispatcher Servlet - spring-context, springmvc, jstl, mysql-connector-java
+ 
+ make changes in web.xml
+ make changes in pom.
+ 
+ 
+ 
+ To avoid using XML -annotation - Servlet version more than 3
+ 
+ 1. replace the configuration file : dispatcher-servlet.xml with DispatcherConfig.java(Make it in the same package as the controllers) use annotation @Configuration & @ComponentScan({packageName},{})
+  
+ 2. replace the web.xml file with MyWebInitializer.java which should extend AbstractAnnotationConfigDispatcherServletInitializer. - Set the servlet mapping and servlet config class (DispatcherConfig.java)
+ 
+ PS: delete the dispatcher-servlet.xml file but dont delete the web.xml. Instead remove its contents to test.
+https://www.youtube.com/watch?v=g2b-NbR48Jo&t=434s
+ 
